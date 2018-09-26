@@ -1,7 +1,7 @@
 package com.SRMAsset.InterestManager.helper;
 
 public enum InterestTax {
-	A(0.10), B(0.20), C(null);
+	A(null), B(0.10), C(0.20);
 
 	private Double tax;
 

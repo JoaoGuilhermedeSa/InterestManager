@@ -26,18 +26,17 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-	
-	private static final Logger log = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
+	private static final Logger log = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
 	public RestResponseEntityExceptionHandler() {
 		super();
 	}
-	
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
 			final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-		log.info(ex.getClass().getName() + " em " + request.getContextPath());
+		log.info(ex.getClass().getName() + " on " + request.getContextPath());
 		final List<String> errors = new ArrayList<String>();
 		for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
 			errors.add(error.getField() + ": " + error.getDefaultMessage());
@@ -52,7 +51,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	@Override
 	protected ResponseEntity<Object> handleBindException(final BindException ex, final HttpHeaders headers,
 			final HttpStatus status, final WebRequest request) {
-		log.info(ex.getClass().getName() + " em " + request.getContextPath());
+		log.info(ex.getClass().getName() + " on " + request.getContextPath());
 		//
 		final List<String> errors = new ArrayList<String>();
 		for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
@@ -68,9 +67,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	@Override
 	protected ResponseEntity<Object> handleTypeMismatch(final TypeMismatchException ex, final HttpHeaders headers,
 			final HttpStatus status, final WebRequest request) {
-		log.info(ex.getClass().getName() + " em " + request.getContextPath());
-		final String error = "O valor " + ex.getValue() + " do atributo " + ex.getPropertyName()
-				+ " deve ser do tipo " + ex.getRequiredType().getSimpleName();
+		log.info(ex.getClass().getName() + " on " + request.getContextPath());
+		final String error = ex.getPropertyName() + " must be of type " + ex.getRequiredType().getSimpleName();
 
 		final ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, error);
 		return new ResponseEntity<Object>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
@@ -89,8 +87,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(
 			final MissingServletRequestParameterException ex, final HttpHeaders headers, final HttpStatus status,
 			final WebRequest request) {
-		log.info(ex.getClass().getName() + " em " + request.getContextPath());
-		final String error = "O parâmetro " + ex.getParameterName() + " está ausente";
+		log.info(ex.getClass().getName() + " on " + request.getContextPath());
+		final String error = "Parameter" + ex.getParameterName() + " is missing ";
 		final ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, error);
 		return new ResponseEntity<Object>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
 	}
@@ -99,7 +97,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	public ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex,
 			final WebRequest request) {
 		log.info(ex.getClass().getName() + " em " + request.getContextPath());
-		final String error = "Parâmetro " + ex.getName() + " deve ser um " + ex.getRequiredType().getSimpleName();
+		final String error = "Parameter " + ex.getName() + " must be of type " + ex.getRequiredType().getSimpleName();
 
 		final ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, error);
 		return new ResponseEntity<Object>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
@@ -122,7 +120,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		log.info(ex.getClass().getName() + " em " + request.getContextPath());
 		final StringBuilder builder = new StringBuilder();
 		builder.append(ex.getMethod());
-		builder.append("Este método não está disponível para esta requisição. Métodos disponíveis são:");
+		builder.append("Method not available. Available methods are: ");
 		ex.getSupportedHttpMethods().forEach(t -> builder.append(t + " "));
 
 		final ErrorResponse errorResponse = new ErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, builder.toString());
@@ -132,7 +130,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	@ExceptionHandler({ Exception.class })
 	public ResponseEntity<Object> handleAll(final Exception ex, final WebRequest request) {
 		log.error(ex.getClass().getName() + " em " + request.getContextPath(), ex);
-		final ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Houve um erro inesperado");
+		final ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+				"An unexpected error occured");
 		return new ResponseEntity<Object>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
 	}
 
