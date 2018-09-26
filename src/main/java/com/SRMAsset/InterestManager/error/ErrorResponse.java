@@ -1,13 +1,21 @@
 package com.SRMAsset.InterestManager.error;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 
 public class ErrorResponse {
 
 	private HttpStatus status;
-	private String message;
+	private List<String> message;
 
 	public ErrorResponse(HttpStatus status, String message) {
+		this.status = status;
+		this.message = Arrays.asList(message);
+	}
+	
+	public ErrorResponse(HttpStatus status, List<String> message) {
 		this.status = status;
 		this.message = message;
 	}
@@ -20,12 +28,13 @@ public class ErrorResponse {
 		this.status = status;
 	}
 
-	public String getMessage() {
+	public List<String> getMessage() {
 		return message;
 	}
 
-	public void setMessage(String message) {
+	public void setMessage(List<String> message) {
 		this.message = message;
 	}
 
+	
 }

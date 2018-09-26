@@ -22,7 +22,7 @@ public class Client implements Serializable {
 	@NotNull
 	private String name;
 	@NotNull
-	private Double creditLimite;
+	private Double creditLimit;
 	@NotNull
 	private String risk;
 	@JsonIgnore
@@ -46,12 +46,12 @@ public class Client implements Serializable {
 		this.name = name;
 	}
 
-	public Double getCreditLimite() {
-		return creditLimite;
+	public Double getCreditLimit() {
+		return creditLimit;
 	}
 
-	public void setCreditLimite(Double creditLimite) {
-		this.creditLimite = creditLimite;
+	public void setCreditLimit(Double creditLimit) {
+		this.creditLimit = creditLimit;
 	}
 
 	public String getRisk() {

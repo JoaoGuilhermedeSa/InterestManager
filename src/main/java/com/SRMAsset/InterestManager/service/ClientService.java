@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.SRMAsset.InterestManager.helper.InterestTax;
 import com.SRMAsset.InterestManager.model.Client;
 import com.SRMAsset.InterestManager.repository.ClientRepository;
 
@@ -22,6 +23,7 @@ public class ClientService {
 
 	public Client insertClient(Client client) {
 		client.setModified(Date.from(Instant.now()));
+		this.checkInterestRate(client);
 		return clientRepository.insert(client);
 	}
 
@@ -35,6 +37,7 @@ public class ClientService {
 
 	public Client updateClient(Client client) {
 		client.setModified(Date.from(Instant.now()));
+		this.checkInterestRate(client);
 		return clientRepository.save(client);
 	}
 
@@ -42,4 +45,8 @@ public class ClientService {
 		clientRepository.deleteById(id);
 	}
 
+	public void checkInterestRate(Client client) {
+		InterestTax tax = InterestTax.valueOf(client.getRisk().toUpperCase());
+		client.setInterestRate(tax.getTax());
+	}
 }
