@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+//import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,8 +68,9 @@ public class ClientResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> findById(@Valid Client client) {
+	public ResponseEntity<?> findById(@RequestBody @Valid Client client) {
 		log.debug("Inserindo cliente novo - " + client.getName());
+		log.warn(client.getName() + "--" + client.getRisk() + "--" + client.getCreditLimit());
 		try {
 			return ResponseEntity.ok(clientService.insertClient(client));
 		} catch (Exception ex) {
@@ -77,7 +81,7 @@ public class ClientResource {
 	}
 
 	@PutMapping
-	public ResponseEntity<?> updateClient(@Valid Client client) {
+	public ResponseEntity<?> updateClient(@RequestBody @Valid Client client) {
 		log.debug("Atualizando cliente - " + client.getId());
 		try {
 			return ResponseEntity.ok(clientService.updateClient(client));
