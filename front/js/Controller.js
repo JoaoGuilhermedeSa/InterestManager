@@ -5,10 +5,10 @@ app.controller("crudController", function ($scope, crudService) {
 	$scope.riskValues=[];
 
 	getRiskValues();
-	GetAllClients();
+	getAllClients();
 	$scope.risk = 'A';
 
-	function GetAllClients() {
+	function getAllClients() {
 
 
 
@@ -78,8 +78,6 @@ app.controller("crudController", function ($scope, crudService) {
 
 	}
 
-
-
 	function ClearFields() {
 
 		$scope.id = "";
@@ -92,9 +90,6 @@ app.controller("crudController", function ($scope, crudService) {
 
 	}
 
-
-
-	// Hide Add / Update Client Form
 
 	$scope.closeFrmBtn = function () {
 
@@ -136,7 +131,7 @@ app.controller("crudController", function ($scope, crudService) {
 
 			getClientData.then(function (response) {
 
-				GetAllClients();
+				getAllClients();
 
 
 			}, function () {
@@ -153,7 +148,7 @@ app.controller("crudController", function ($scope, crudService) {
 
 			addClientData.then(function (response) {
 
-				GetAllClients();
+				getAllClients();
 
 			}, function () {
 
@@ -198,8 +193,17 @@ app.controller("crudController", function ($scope, crudService) {
 		if (ans) {
 
 			var delClientData = crudService.deleteClient(client.id);
+						delClientData.then(function (response) {
 
-			GetAllClients();
+				getAllClients();
+
+			}, function () {
+
+				alert('Erro ao deletar cliente');
+
+			}
+
+			);
 
 		}
 

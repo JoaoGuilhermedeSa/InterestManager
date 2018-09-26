@@ -1,90 +1,124 @@
 <!doctype html>
+<!-- CONTÉM MATERIAL DE https://www.trycatchclasses.com/create-read-update-delete-using-angularjs/-->
 <html lang="en">
- <head>
+
+<head>
 	<meta charset="UTF-8">
 	<title>SRM Asset</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-theme.css">
 	<style>
-	span {margin:5px;}
+		span {
+			margin: 5px;
+		}
 	</style>
- </head>
- <body>
-  
+</head>
+
+<body>
+
 	<div ng-app="crudApp">
 		<div ng-controller="crudController">
 
 			<div class="container well mtp75">
 				<div class="container-fluid center">
-					
-					<span ng-click="addClient()" class="container-fluid pull-right btn btn-danger">Adicionar novo cliente</span>
+
+					<button ng-click="addClient()" class="btn btn-primary btn-lg btn-block">Adicionar novo cliente</button>
 				</div>
 
 
 
-				<br><br>
+				<br>
+				<br>
 				<div class="row">
-					
-				<table cellpadding=10 cellspacing=10 border=0 class="table">
-					<tr>
-						<th>Nome
-						</th>
-						<th>Limite de crédito
-						</th>
-						<th>Tipo de Risco
-						</th>
-						<th> </th>
-						<th> </th>
-					</tr>
-					
-					<tr ng-repeat="client in clients">
-						<td>{{client.name}}</td>
-						<td>{{client.creditLimit}}</td>
-						<td>{{client.risk}}</td>
-						<td><span ng-click="editClient(client)" class="btn btn-primary">E</span></td>
-						<td><span ng-click="deleteClient(client)" class="btn btn-danger">X</span></td>
-					</tr>
-				</table>
-								
-				</div> <!-- End OF Row -->
-			</div><!-- End OF Container -->
-			
+
+					<table cellpadding=10 cellspacing=10 border=0 class="table">
+						<tr>
+							<th>Nome
+							</th>
+							<th>Limite de crédito
+							</th>
+							<th>Tipo de Risco
+							</th>
+							<th> </th>
+							<th> </th>
+						</tr>
+
+						<tr ng-repeat="client in clients">
+							<td>{{client.name}}</td>
+							<td>{{client.creditLimit}}</td>
+							<td>{{client.risk}}</td>
+							<td>
+								<div>
+								<span ng-click="editClient(client)" class="btn btn-primary btn-sm">Editar</span>
+
+								<span ng-click="deleteClient(client)" class="btn btn-danger btn-sm">Remover</span>
+							</div>
+							</td>
+						</tr>
+					</table>
+
+				</div>
+				<!-- End OF Row -->
+			</div>
+			<!-- End OF Container -->
+
 			<div class="container" ng-show="ClientFormContainer">
 				<div class="row">
-				
-				<div ng-click="closeFrmBtn()">X</div>
-				
-				<table class="table">
-					<tr>
-						<td><b><i>{{Action}} cliente</i></b></td>
-						<td><input type="text" disabled="disabled" ng-model="id" /></td>
-					</tr>
-					<tr>
-						<td>Nome</td>
-						<td><input type="text" placeholder="Nome" ng-model="name" /></td>
-					</tr>
-					<tr>
-						<td>Limite de crédito</td>
-						<td><input type="text" placeholder="Limite de crédito" ng-model="creditLimit" /></td>
-					</tr>
-					<tr>
-						<td>Taxa de Risco</td>
-						<td><select ng-init="A" ng-model="risk">
-							<option ng-repeat="x in riskValues" >{{x}}</option>
-							</select></td>
-					</tr>
-					<tr>
-						<td><input type="button" class="btn btn-default" value="Salvar" ng-click="AddUpdateClient()" /></td>
-						<td><input type="button" class="btn btn-danger" value="Cancelar" ng-click="Cancel()" /></td>
-					</tr>
-					</table>
-					
-				</div> <!-- End OF Row -->
-			</div><!-- End OF Container -->
+
+					<td class="col-md-12">
+						<input type="button" class="btn btn-danger" value="X" ng-click="closeFrmBtn()" />
+
+						<table class="table">
+							<tr>
+								<td>
+									<b>
+										<i>{{Action}} cliente</i>
+									</b>
+								</td>
+								<td>
+									<input type="text" disabled="disabled" ng-model="id" />
+								</td>
+							</tr>
+							<tr>
+								<td>Nome</td>
+								<td>
+									<input type="text" placeholder="Nome" ng-model="name" />
+								</td>
+							</tr>
+							<tr>
+								<td>Limite de crédito</td>
+								<td>
+									<input type="text" placeholder="Limite de crédito" ng-model="creditLimit" />
+								</td>
+							</tr>
+							<tr>
+								<td>Taxa de Risco</td>
+								<td>
+									<select ng-init="A" ng-model="risk">
+										<option ng-repeat="x in riskValues">{{x}}</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="row container-fluid">
+										<input type="button" class="btn btn-default" value="Salvar" ng-click="AddUpdateClient()" />
+										<input type="button" class="btn btn-danger" value="Cancelar" ng-click="Cancel()" />
+								</td>
+								</div>
+							</tr>
+						</table>
+
+				</div>
+				<!-- End OF Row -->
+			</div>
+			<!-- End OF Container -->
 			<br />
 
-		</div> <!-- End Of ng-controller -->
-	</div> <!-- End Of ng-app -->
+		</div>
+		<!-- End Of ng-controller -->
+	</div>
+	<!-- End Of ng-app -->
 
 
 	<script src="js/angular.min.js"></script>
@@ -94,5 +128,6 @@
 	<script src="js/Controller.js"></script>
 
 
- </body>
+</body>
+
 </html>
